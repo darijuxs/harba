@@ -11,7 +11,7 @@ apt-get install php libapache2-mod-php php-curl php-mysql php-zip php-xdebug php
 #
 ##Configuring xdebug
 echo "xdebug.remote_enable=1" >> "/etc/php/7.2/apache2/conf.d/20-xdebug.ini";
-echo "xdebug.remote_host=172.18.0.1" >> "/etc/php/7.2/apache2/conf.d/20-xdebug.ini";
+echo "xdebug.remote_host=172.19.0.1" >> "/etc/php/7.2/apache2/conf.d/20-xdebug.ini";
 echo "xdebug.remote_autostart=1" >> "/etc/php/7.2/apache2/conf.d/20-xdebug.ini";
 
 #Disable Xdebug for cli to install ls_dm using composer without error.

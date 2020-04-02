@@ -10,9 +10,9 @@ networks:
 
 services:
 
-  web:
+  web_harba:
     build: images/apache
-    image: apache_php
+    image: apache_php2
     restart: always
     container_name: web_harba
     ports:
