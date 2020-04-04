@@ -6,8 +6,8 @@ use App\Entity\WeatherProvider;
 use App\Entity\Response\WeatherResponse as WeatherResponse;
 use App\Entity\Request\WeatherRequest as WeatherRequest;
 use App\Service\Weather\Provider\ConfigInterface;
-use App\Service\Weather\Provider\Exception\InvalidConfigProviderException;
-use App\Service\Weather\Provider\Exception\InvalidResponseProviderException;
+use App\Service\Weather\Provider\Exception\InvalidConfigException;
+use App\Service\Weather\Provider\Exception\InvalidResponseException;
 use App\Service\Weather\Provider\ProviderAbstract;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -44,16 +44,17 @@ class Client extends ProviderAbstract
      *
      * @return ConfigInterface
      *
-     * @throws InvalidConfigProviderException
+     * @throws InvalidConfigException
      */
     public function setConfiguration(WeatherProvider $provider): ConfigInterface
     {
         $config = json_decode($provider->getConfig(), true);
         if (null === $config) {
-            throw new InvalidConfigProviderException();
+            throw new InvalidConfigException();
         }
 
         $this->config = (new Config())
+            ->setName($provider->getName())
             ->setUrl($config['url'])
             ->setApiKey($config['apiKey']);
 
@@ -65,13 +66,14 @@ class Client extends ProviderAbstract
      *
      * @return WeatherResponse
      *
-     * @throws InvalidResponseProviderException
+     * @throws InvalidResponseException
      */
     public function getWeather(WeatherRequest $weatherRequest): WeatherResponse
     {
         $data = $this->getWeatherRawData($weatherRequest);
 
         return (new WeatherResponse())
+            ->setName($this->config->getName())
             ->setTemperature($data['main']['temp']);
     }
 
@@ -80,7 +82,7 @@ class Client extends ProviderAbstract
      *
      * @return array
      *
-     * @throws InvalidResponseProviderException
+     * @throws InvalidResponseException
      */
     private function getWeatherRawData(WeatherRequest $weatherRequest): array
     {
@@ -93,15 +95,15 @@ class Client extends ProviderAbstract
                     'units' => 'metric',
                 ],
             ]);
-            $response = json_decode($responseRaw->getBody(), true);
 
+            $response = json_decode($responseRaw->getBody(), true);
             if (null === $response) {
-                throw new InvalidResponseProviderException('Invalid response returned');
+                throw new InvalidResponseException('Invalid response returned');
             }
 
             return $response;
         } catch (GuzzleException $exception) {
-            throw new InvalidResponseProviderException($exception->getMessage());
+            throw new InvalidResponseException($exception->getMessage());
         }
     }
 }

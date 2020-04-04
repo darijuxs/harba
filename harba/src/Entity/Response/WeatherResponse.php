@@ -8,14 +8,39 @@ namespace App\Entity\Response;
 class WeatherResponse
 {
     /**
-     * @var int
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var float
      */
     private $temperature;
 
     /**
-     * @return int
+     * @return string
      */
-    public function getTemperature(): int
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return WeatherResponse
+     */
+    public function setName(string $name): WeatherResponse
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTemperature(): float
     {
         return $this->temperature;
     }

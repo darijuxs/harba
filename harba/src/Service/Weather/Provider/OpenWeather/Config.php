@@ -12,12 +12,37 @@ class Config implements ConfigInterface
     /**
      * @var string
      */
+    private $name;
+
+    /**
+     * @var string
+     */
     private $url;
 
     /**
      * @var string
      */
     private $apiKey;
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return Config
+     */
+    public function setName(string $name): Config
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     /**
      * @return string

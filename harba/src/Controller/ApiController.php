@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Request\WeatherRequest;
+use App\Service\Weather\Provider\Exception\ProviderException;
 use App\Service\Weather\WeatherService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -27,22 +28,23 @@ class ApiController extends ApiAbstractController
     }
 
     /**
-     * @Route("weather", name="weather")
+     * @Route("/weather", name="weather")
      *
-     * @param WeatherService $weatherService
      * @param Request        $request
+     * @param WeatherService $weatherService
      *
      * @return JsonResponse
      */
     public function weather(Request $request, WeatherService $weatherService)
     {
-        /* @var WeatherRequest $weatherRequest */
         try {
+            /* @var WeatherRequest $weatherRequest */
             $weatherRequest = $this->validate($request->getContent(), WeatherRequest::class);
-        } catch (BadRequestHttpException $exception) {
+
+            return $this->json($weatherService->getWeatherByCordinates($weatherRequest));
+        } catch (BadRequestHttpException | ProviderException $exception) {
+
             return $this->failedResponse($exception->getMessage());
         }
-
-        return $this->json($weatherService->getWeatherForCordinates($weatherRequest));
     }
 }

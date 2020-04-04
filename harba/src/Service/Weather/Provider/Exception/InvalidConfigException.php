@@ -3,9 +3,9 @@
 namespace App\Service\Weather\Provider\Exception;
 
 /**
- * Class InvalidConfigProviderException.
+ * Class InvalidConfigException.
  */
-class InvalidConfigProviderException extends ProviderException
+class InvalidConfigException extends ProviderException
 {
     /**
      * InvalidConfigProviderException constructor.

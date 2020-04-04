@@ -3,9 +3,9 @@
 namespace App\Service\Weather\Provider\Exception;
 
 /**
- * Class ProviderNotFoundProviderException.
+ * Class ProviderNotFoundException.
  */
-class ProviderNotFoundProviderException extends ProviderException
+class ProviderNotFoundException extends ProviderException
 {
     /**
      * ProviderNotFoundProviderException constructor.

@@ -93,6 +93,9 @@
     "guzzlehttp/guzzle": {
         "version": "6.5.2"
     },
+    "guzzlehttp/oauth-subscriber": {
+        "version": "0.3.0"
+    },
     "guzzlehttp/promises": {
         "version": "v1.3.1"
     },

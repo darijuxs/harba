@@ -4,6 +4,7 @@ namespace App\Service\Weather;
 
 use App\Entity\Request\WeatherRequest;
 use App\Entity\Response\WeatherResponse;
+use App\Service\Weather\Provider\Exception\ProviderNotFoundException;
 use App\Service\Weather\Provider\Exception\ProviderException;
 
 /**
@@ -30,8 +31,10 @@ class WeatherService
      * @param WeatherRequest $weatherRequest
      *
      * @return WeatherResponse
+     *
+     * @throws ProviderException
      */
-    public function getWeatherForCordinates(WeatherRequest $weatherRequest): WeatherResponse
+    public function getWeatherByCordinates(WeatherRequest $weatherRequest): WeatherResponse
     {
         $providersIterator = $this->weatherProviderService->getProviders();
         while ($providersIterator->valid()) {
@@ -49,6 +52,6 @@ class WeatherService
             }
         }
 
-        return new WeatherResponse();
+        throw new ProviderNotFoundException();
     }
 }
