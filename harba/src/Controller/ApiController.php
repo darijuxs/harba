@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Request\WeatherRequest;
+use App\Service\Harbour\Exception\InvalidResponseException;
+use App\Service\Harbour\MapService;
 use App\Service\Weather\Provider\Exception\ProviderException;
 use App\Service\Weather\WeatherService;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,13 +20,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ApiController extends ApiAbstractController
 {
     /**
-     * @Route("", name="main")
+     * @Route("/", name="main")
+     *
+     * @param MapService $mapService
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(MapService $mapService): JsonResponse
     {
-        return $this->json(['ok']);
+        try {
+            return $this->json($mapService->getHarbours());
+        } catch (InvalidResponseException $exception) {
+
+            return $this->failedResponse($exception->getMessage());
+        }
     }
 
     /**
