@@ -5,10 +5,3 @@ controllers:
 kernel:
     resource: ../../src/Kernel.php
     type: annotation
-
-homepage:
-    path: /
-    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
-    defaults:
-        path: /api
-        permanent: true

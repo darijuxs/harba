@@ -12,7 +12,7 @@ services:
 
   web_harba:
     build: images/apache
-    image: apache_php2
+    image: apache_harba
     restart: always
     container_name: web_harba
     ports:
@@ -33,7 +33,7 @@ services:
 
   db_harba:
     build: images/mysql
-    image: mysql
+    image: mysql_harba
     restart: always
     container_name: db_harba
     ports:
@@ -41,3 +41,17 @@ services:
     networks:
       custom_network:
         ipv4_address: 172.18.0.100
+
+  node_harba:
+    build: images/nodejs
+    image: nodejs_harba
+    restart: always
+    container_name: node_harba
+    ports:
+      - "4200:4200"
+    volumes:
+      - ../:/var/www/html
+      - ./images/apache/start.sh:/build/start.sh
+    networks:
+      custom_network:
+        ipv4_address: 172.18.0.151

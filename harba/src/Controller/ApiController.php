@@ -20,13 +20,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ApiController extends ApiAbstractController
 {
     /**
-     * @Route("/", name="main")
+     * @Route("/harbour", name="harbour")
      *
      * @param MapService $mapService
      *
      * @return JsonResponse
      */
-    public function index(MapService $mapService): JsonResponse
+    public function harbour(MapService $mapService): JsonResponse
     {
         try {
             return $this->json($mapService->getHarbours());
