@@ -25,7 +25,19 @@ services:
       - ./images/apache/configuration/php.ini:/etc/php/7.2/apache2/php.ini
       - ./images/apache/configuration/php.ini:/etc/php/7.2/cli/php.ini
     extra_hosts:
-      - "harba.local.conf:172.18.0.2"
+      - "harba.local:172.18.0.2"
+      - "db.local:172.18.0.100"
     networks:
       custom_network:
         ipv4_address: 172.18.0.2
+
+  db_harba:
+    build: images/mysql
+    image: mysql
+    restart: always
+    container_name: db_harba
+    ports:
+      - "3306:3306"
+    networks:
+      custom_network:
+        ipv4_address: 172.18.0.100
