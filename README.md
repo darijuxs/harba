@@ -5,7 +5,7 @@
 2. go to environment folder
 3. install docker and docker-compose
 4. run docker-compose up -d
-5. add to you hosts file 
+5. add to you hosts file  
     172.18.0.2 harba.local  
     172.18.0.100 db.local
 6. open web container *docker exec -it web_harba bash* and got to */var/www/html*
@@ -15,17 +15,19 @@
 8. go to /var/www/html/harba and run composer install
 9. got to /etc/apache2/sites-available and run a2ensite harba.local.conf, service apache2 reload (@todo should be run automatically)
 
-10. create database commands:
-php bin/console doctrine:database:create
-php bin/console doctrine:schema:create
-php bin/console doctrine:migrations:migrate
+10. create database commands:  
+php bin/console doctrine:database:create  
+php bin/console doctrine:schema:create  
+php bin/console doctrine:migrations:migrate  
 
-11. open web container *docker exec -it node_harba bash* and got to */var/www/html*
+11. open web container *docker exec -it node_harba bash* and got to */var/www/html/harba/angular-app*
 
-12. install angule cli npm install -g @angular/cli
+12. run npm install
 
-13. build angule js application ng build
+13. install angular cli npm install -g @angular/cli
 
-14. run page http://harba.local
+14. build angular js application ng build
 
-15. go to */var/www/html/harba* and run test *./bin/phpunit*
+15. run page http://harba.local
+
+16. go to */var/www/html/harba* and run test *./bin/phpunit*
