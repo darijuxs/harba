@@ -27,3 +27,5 @@ php bin/console doctrine:migrations:migrate
 13. build angule js application ng build
 
 14. run page http://harba.local
+
+15. go to */var/www/html/harba* and run test *./bin/phpunit*

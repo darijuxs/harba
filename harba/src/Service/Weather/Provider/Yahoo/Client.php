@@ -90,7 +90,7 @@ class Client extends ProviderAbstract
      *
      * @throws InvalidResponseException
      */
-    private function getWeatherRawData(WeatherRequest $weatherRequest): array
+    public function getWeatherRawData(WeatherRequest $weatherRequest): array
     {
         try {
             $handler = new CurlHandler();

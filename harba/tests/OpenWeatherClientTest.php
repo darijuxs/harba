@@ -52,13 +52,13 @@ class OpenWeatherClientTest extends TestCase
 
     public function testWeatherResponse()
     {
-        /* @var Client $mock */
-        $mock = $this->getMockBuilder(Client::class)
+        /* @var Client $clientMock */
+        $clientMock = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->setMethods(['getWeatherRawData', 'getConfig'])
             ->getMock();
 
-        $mock->method('getWeatherRawData')->willReturn(
+        $clientMock->method('getWeatherRawData')->willReturn(
             [
                 'main' => [
                     'temp' => 14.02,
@@ -66,12 +66,12 @@ class OpenWeatherClientTest extends TestCase
             ]
         );
 
-        $mock->method('getConfig')->willReturn(
+        $clientMock->method('getConfig')->willReturn(
             (new Config())
                 ->setName('OpenWeather')
         );
 
-        $weatherResponse = $mock->getWeather(new WeatherRequest());
+        $weatherResponse = $clientMock->getWeather($this->weatherRequest);
 
         $this->assertEquals($weatherResponse, (new WeatherResponse())
             ->setProviderName('OpenWeather')
@@ -81,8 +81,8 @@ class OpenWeatherClientTest extends TestCase
 
     public function testWeathherRawData()
     {
-        /* @var Client $cleintMock */
-        $cleintMock = $this->getMockBuilder(Client::class)
+        /* @var Client $clientMock */
+        $clientMock = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->setMethods(['getGuzzleClient', 'getConfig'])
             ->getMock();
@@ -100,10 +100,10 @@ class OpenWeatherClientTest extends TestCase
 
         $guzzleResponseMock->method('getBody')->willReturn('{"main":{"temp":9.57,"feels_like":4.98,"temp_min":9,"temp_max":10,"pressure":1033,"humidity":49}}');
         $guzzleClientMock->method('request')->willReturn($guzzleResponseMock);
-        $cleintMock->method('getGuzzleClient')->willReturn($guzzleClientMock);
-        $cleintMock->method('getConfig')->willReturn($this->config);
+        $clientMock->method('getGuzzleClient')->willReturn($guzzleClientMock);
+        $clientMock->method('getConfig')->willReturn($this->config);
 
-        $weatherResponse = $cleintMock->getWeatherRawData($this->weatherRequest);
+        $weatherResponse = $clientMock->getWeatherRawData($this->weatherRequest);
 
         $this->assertEquals($weatherResponse, [
             'main' => [
