@@ -1,0 +1,30 @@
+<agm-map
+  *ngIf="markers"
+  [latitude]="getInitLatitude()"
+  [longitude]="getInitLongitude()"
+  [zoom]="6"
+  [disableDefaultUI]="false"
+  [zoomControl]="false">
+
+  <agm-marker
+    *ngFor="let marker of markers;"
+    [latitude]="marker.lat"
+    [longitude]="marker.lon"
+    (markerClick)="showPopup(marker)">
+    <agm-info-window>
+      <div *ngIf="marker.showPopup">
+        <div class="row">
+          <strong>{{marker.name}}</strong>
+        </div>
+        <div class="row" *ngIf="marker.image">
+          <img src="{{imageUlr}}{{marker.image}}" alt="{{marker.name}}">
+        </div>
+        <div class="row" *ngIf="marker.weather">Tempereture: <b>{{marker.weather.temperature}}</b> &#8451;
+        </div>
+        <div class="row" *ngIf="marker.weather">Provider: <b>{{marker.weather.providerName}}</b>
+        </div>
+      </div>
+    </agm-info-window>
+  </agm-marker>
+
+</agm-map>
