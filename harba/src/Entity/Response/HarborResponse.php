@@ -33,6 +33,11 @@ class HarborResponse
     private $lon;
 
     /**
+     * @var bool
+     */
+    private $showPopup = false;
+
+    /**
      * @return string
      */
     public function getId(): string
@@ -128,6 +133,26 @@ class HarborResponse
     public function setLon(string $lon): HarborResponse
     {
         $this->lon = $lon;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowPopup(): bool
+    {
+        return $this->showPopup;
+    }
+
+    /**
+     * @param bool $showPopup
+     *
+     * @return HarborResponse
+     */
+    public function setShowPopup(bool $showPopup): HarborResponse
+    {
+        $this->showPopup = $showPopup;
 
         return $this;
     }

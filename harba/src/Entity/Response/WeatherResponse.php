@@ -10,7 +10,7 @@ class WeatherResponse
     /**
      * @var string
      */
-    private $name;
+    private $providerName;
 
     /**
      * @var float
@@ -20,19 +20,19 @@ class WeatherResponse
     /**
      * @return string
      */
-    public function getName(): string
+    public function getProviderName(): string
     {
-        return $this->name;
+        return $this->providerName;
     }
 
     /**
-     * @param string $name
+     * @param string $providerName
      *
      * @return WeatherResponse
      */
-    public function setName(string $name): WeatherResponse
+    public function setProviderName(string $providerName): WeatherResponse
     {
-        $this->name = $name;
+        $this->providerName = $providerName;
 
         return $this;
     }

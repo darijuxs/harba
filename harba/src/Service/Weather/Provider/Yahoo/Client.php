@@ -78,7 +78,7 @@ class Client extends ProviderAbstract
         $data = $this->getWeatherRawData($weatherRequestRequest);
 
         return (new WeatherResponse())
-            ->setName($this->config->getName())
+            ->setProviderName($this->config->getName())
             ->setTemperature($data['current_observation']['condition']['temperature']);
     }
 

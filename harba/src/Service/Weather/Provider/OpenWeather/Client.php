@@ -73,7 +73,7 @@ class Client extends ProviderAbstract
         $data = $this->getWeatherRawData($weatherRequest);
 
         return (new WeatherResponse())
-            ->setName($this->config->getName())
+            ->setProviderName($this->config->getName())
             ->setTemperature($data['main']['temp']);
     }
 

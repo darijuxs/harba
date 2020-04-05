@@ -15,18 +15,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Class ApiController.
  *
- * @Route("/api", name="api_", methods={"POST"})
+ * @Route("/api", name="api_", methods={"GET","POST"})
  */
 class ApiController extends ApiAbstractController
 {
     /**
-     * @Route("/harbour", name="harbour")
+     * @Route("/harbours", name="harbour")
      *
      * @param MapService $mapService
      *
      * @return JsonResponse
      */
-    public function harbour(MapService $mapService): JsonResponse
+    public function harbours(MapService $mapService): JsonResponse
     {
         try {
             return $this->json($mapService->getHarbours());
