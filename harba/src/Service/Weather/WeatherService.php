@@ -42,7 +42,7 @@ class WeatherService
             try {
                 /* @var WeatherProviderInterface $provider */
                 $providerEntity = $this->weatherProviderService->getProviderData($provider);
-                $provider->setConfiguration($providerEntity);
+                $provider->setConfig($providerEntity);
 
                 $response = $provider->getWeather($weatherRequest);
 

@@ -9,6 +9,7 @@ use App\Service\Weather\Provider\ConfigInterface;
 use App\Service\Weather\Provider\Exception\InvalidConfigException;
 use App\Service\Weather\Provider\Exception\InvalidResponseException;
 use App\Service\Weather\Provider\ProviderAbstract;
+use App\Service\Weather\WeatherProviderInterface;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
@@ -24,14 +25,6 @@ class Client extends ProviderAbstract
     private $config;
 
     /**
-     * Client constructor.
-     */
-    public function __construct()
-    {
-        $this->createGuzzleClient();
-    }
-
-    /**
      * @return string
      */
     public function getKey(): string
@@ -40,13 +33,21 @@ class Client extends ProviderAbstract
     }
 
     /**
+     * @return ConfigInterface
+     */
+    public function getConfig(): ConfigInterface
+    {
+        return $this->config;
+    }
+
+    /**
      * @param WeatherProvider $provider
      *
-     * @return ConfigInterface
+     * @return WeatherProviderInterface
      *
      * @throws InvalidConfigException
      */
-    public function setConfiguration(WeatherProvider $provider): ConfigInterface
+    public function setConfig(WeatherProvider $provider): WeatherProviderInterface
     {
         $config = json_decode($provider->getConfig(), true);
         if (null === $config) {
@@ -58,7 +59,7 @@ class Client extends ProviderAbstract
             ->setUrl($config['url'])
             ->setApiKey($config['apiKey']);
 
-        return $this->config;
+        return $this;
     }
 
     /**
@@ -73,7 +74,7 @@ class Client extends ProviderAbstract
         $data = $this->getWeatherRawData($weatherRequest);
 
         return (new WeatherResponse())
-            ->setProviderName($this->config->getName())
+            ->setProviderName($this->getConfig()->getName())
             ->setTemperature($data['main']['temp']);
     }
 
@@ -84,12 +85,12 @@ class Client extends ProviderAbstract
      *
      * @throws InvalidResponseException
      */
-    private function getWeatherRawData(WeatherRequest $weatherRequest): array
+    public function getWeatherRawData(WeatherRequest $weatherRequest): array
     {
         try {
-            $responseRaw = $this->guzzleClient->request('GET', $this->config->getUrl(), [
+            $responseRaw = $this->getGuzzleClient()->request('GET', $this->getConfig()->getUrl(), [
                 'query' => [
-                    'appid' => $this->config->getApiKey(),
+                    'appid' => $this->getConfig()->getApiKey(),
                     'lat' => $weatherRequest->getLatitude(),
                     'lon' => $weatherRequest->getLongitude(),
                     'units' => 'metric',

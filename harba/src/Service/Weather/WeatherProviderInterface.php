@@ -27,7 +27,12 @@ interface WeatherProviderInterface
     /**
      * @param WeatherProvider $weatherProvider
      *
+     * @return WeatherProviderInterface
+     */
+    public function setConfig(WeatherProvider $weatherProvider): WeatherProviderInterface;
+
+    /**
      * @return ConfigInterface
      */
-    public function setConfiguration(WeatherProvider $weatherProvider): ConfigInterface;
+    public function getConfig(): ConfigInterface;
 }

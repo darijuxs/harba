@@ -9,6 +9,7 @@ use App\Service\Weather\Provider\ConfigInterface;
 use App\Service\Weather\Provider\Exception\InvalidConfigException;
 use App\Service\Weather\Provider\Exception\InvalidResponseException;
 use App\Service\Weather\Provider\ProviderAbstract;
+use App\Service\Weather\WeatherProviderInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
@@ -27,14 +28,6 @@ class Client extends ProviderAbstract
     private $config;
 
     /**
-     * OpenWeatherClient constructor.
-     */
-    public function __construct()
-    {
-        $this->createGuzzleClient();
-    }
-
-    /**
      * @return string
      */
     public function getKey(): string
@@ -43,13 +36,21 @@ class Client extends ProviderAbstract
     }
 
     /**
+     * @return ConfigInterface
+     */
+    public function getConfig(): ConfigInterface
+    {
+        return $this->config;
+    }
+
+    /**
      * @param WeatherProvider $provider
      *
-     * @return ConfigInterface
+     * @return WeatherProviderInterface
      *
      * @throws InvalidConfigException
      */
-    public function setConfiguration(WeatherProvider $provider): ConfigInterface
+    public function setConfig(WeatherProvider $provider): WeatherProviderInterface
     {
         $config = json_decode($provider->getConfig(), true);
         if (null === $config) {
@@ -63,7 +64,7 @@ class Client extends ProviderAbstract
             ->setConsumerKey($config['consumerKey'])
             ->setConsumerSecret($config['consumerSecret']);
 
-        return $this->config;
+        return $this;
     }
 
     /**
@@ -78,7 +79,7 @@ class Client extends ProviderAbstract
         $data = $this->getWeatherRawData($weatherRequestRequest);
 
         return (new WeatherResponse())
-            ->setProviderName($this->config->getName())
+            ->setProviderName($this->getConfig()->getName())
             ->setTemperature($data['current_observation']['condition']['temperature']);
     }
 
@@ -96,8 +97,8 @@ class Client extends ProviderAbstract
             $stack = HandlerStack::create($handler);
 
             $middleware = new Oauth1([
-                'consumer_key' => $this->config->getConsumerKey(),
-                'consumer_secret' => $this->config->getConsumerSecret(),
+                'consumer_key' => $this->getConfig()->getConsumerKey(),
+                'consumer_secret' => $this->getConfig()->getConsumerSecret(),
                 'token_secret' => '',
                 'token' => '',
                 'request_method' => Oauth1::REQUEST_METHOD_QUERY,
@@ -105,7 +106,7 @@ class Client extends ProviderAbstract
             ]);
             $stack->push($middleware);
 
-            $responseRaw = $this->guzzleClient->request('GET', $this->config->getUrl(), [
+            $responseRaw = $this->getGuzzleClient()->request('GET', $this->getConfig()->getUrl(), [
                 'handler' => $stack,
                 'auth' => 'oauth',
                 'query' => [
@@ -115,7 +116,7 @@ class Client extends ProviderAbstract
                     'format' => 'json',
                 ],
                 'headers' => [
-                    'X-Yahoo-App-Id' => $this->config->getAppId(),
+                    'X-Yahoo-App-Id' => $this->getConfig()->getAppId(),
                 ],
             ]);
 

@@ -7,8 +7,8 @@ apt-get update -y
 apt-get install curl nano apt-utils net-tools less dialog -y
 ####################################################
 #
-apt-get install php libapache2-mod-php php-curl php-mysql php-zip php-xdebug php-xml php-bcmath php-intl php-gd -y
-#
+apt-get install php libapache2-mod-php php7.2-curl php7.2-mysql php7.2-zip php7.2-xdebug php7.2-xml php7.2-bcmath php7.2-intl php7.2-gd php7.2-mbstring -y
+
 ##Configuring xdebug
 echo "xdebug.remote_enable=1" >> "/etc/php/7.2/apache2/conf.d/20-xdebug.ini";
 echo "xdebug.remote_host=172.19.0.1" >> "/etc/php/7.2/apache2/conf.d/20-xdebug.ini";

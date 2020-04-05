@@ -13,15 +13,21 @@ abstract class ProviderAbstract implements WeatherProviderInterface
     /**
      * @var Client
      */
-    protected $guzzleClient;
+    private $guzzleClient;
+
+    /**
+     * ProviderAbstract constructor.
+     */
+    public function __construct()
+    {
+        $this->guzzleClient = new Client();
+    }
 
     /**
      * @return Client
      */
-    public function createGuzzleClient(): Client
+    public function getGuzzleClient(): Client
     {
-        $this->guzzleClient = new Client();
-
         return $this->guzzleClient;
     }
 }
