@@ -8,7 +8,7 @@
 5. add to you hosts file 
     172.18.0.2 harba.local  
     172.18.0.100 db.local
-6. open web container *docker exec -it web bash* and got to */var/www/html*
+6. open web container *docker exec -it web_harba bash* and got to */var/www/html*
 7. install composer (@todo need to add container)  
     https://getcomposer.org/download/  
     https://getcomposer.org/doc/00-intro.md#globally  
@@ -20,3 +20,10 @@ php bin/console doctrine:database:create
 php bin/console doctrine:schema:create
 php bin/console doctrine:migrations:migrate
 
+11. open web container *docker exec -it node_harba bash* and got to */var/www/html*
+
+12. install angule cli npm install -g @angular/cli
+
+13. build angule js application ng build
+
+14. run page http://harba.local
